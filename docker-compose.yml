@@ -1,0 +1,11 @@
+version: '3'
+services:
+  symfony:
+    build:
+      context: .
+      dockerfile: "docker/Dockerfile"
+    container_name: nodriza
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www/html

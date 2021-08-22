@@ -23,10 +23,14 @@ class PlanetControllerTest extends WebTestCase
         $client->request('GET', '/planets/1');
         $content = json_decode($client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();
-        $this->assertEquals('Tatooine', $content->name);
+        $this->assertEquals('Tatooine', $content->data->name);
         foreach ($responseParams as $responseParam) {
-            $this->assertObjectHasAttribute($responseParam, $content);
+            $this->assertObjectHasAttribute($responseParam, $content->data);
         }
+        $client->request('GET', '/planets/11111111111111');
+        $content = json_decode($client->getResponse()->getContent());
+        $this->assertResponseStatusCodeSame(404);
+        $this->assertEquals(404, $content->errors->code);
     }
 
     public function testPostPlanets(): void
@@ -34,9 +38,11 @@ class PlanetControllerTest extends WebTestCase
         $client = static::createClient();
         $params = array(
             'id' => 1,
-            'name' => ''
+            'name' => 'Tatooine'
         );
-        $response = $client->request('POST', '/planet');
-        var_dump($client->getResponse());
+        $client->request('POST', '/planet', $params);
+        $content = json_decode($client->getResponse()->getContent());
+        $this->assertResponseIsSuccessful();
+        $this->assertEquals('Tatooine', $content->data->name);
     }
 }

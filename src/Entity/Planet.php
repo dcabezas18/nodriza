@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity()
@@ -14,11 +15,13 @@ class Planet
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
+    #[Assert\NotBlank]
     private $id;
 
     /**
      * @ORM\Column(type="string")
      */
+    #[Assert\NotBlank]
     private $name;
 
     /**

@@ -7,6 +7,12 @@ use Symfony\Component\Validator\Validation;
 
 class PlanetValidator
 {
+    private const ID = 'id';
+    private const NAME = 'name';
+    private const ROT_PERIOD = 'rotation_period';
+    private const ORB_PERIOD = 'orbital_period';
+    private const DIAMETER = 'diameter';
+
     /**
      * @param $input
      * @return array
@@ -16,8 +22,8 @@ class PlanetValidator
         $validator = Validation::createValidator();
         $groups = new Assert\GroupSequence(['Default']);
         $constraint = array(
-            'id' => new Assert\Positive(),
-            'name' => new Assert\Length(['min' => 3])
+            self::ID => new Assert\Positive(),
+            self::NAME => new Assert\Length(['min' => 3])
         );
         $constraint = $this->checkOptionalParams($constraint, $input);
 
@@ -39,14 +45,14 @@ class PlanetValidator
     private function checkOptionalParams($constraint, $input): Assert\Collection
     {
         $optionalArray = array();
-        if (array_key_exists('rotation_period' , $input)) {
-            $optionalArray['rotation_period'] = new Assert\Positive();
+        if (array_key_exists(self::ROT_PERIOD , $input)) {
+            $optionalArray[self::ROT_PERIOD] = new Assert\Positive();
         }
-        if (array_key_exists('orbital_period' , $input)) {
-            $optionalArray['orbital_period'] = new Assert\Positive();
+        if (array_key_exists(self::ORB_PERIOD , $input)) {
+            $optionalArray[self::ORB_PERIOD] = new Assert\Positive();
         }
-        if (array_key_exists('diameter' , $input)) {
-            $optionalArray['diameter'] = new Assert\Positive();
+        if (array_key_exists(self::DIAMETER , $input)) {
+            $optionalArray[self::DIAMETER] = new Assert\Positive();
         }
         $constraint = array_merge($constraint, $optionalArray);
         return new Assert\Collection($constraint);

@@ -44,5 +44,12 @@ class PlanetControllerTest extends WebTestCase
         $content = json_decode($client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();
         $this->assertEquals('Tatooine', $content->data->name);
+
+        $params = array(
+            'id' => 1,
+            'name' => 'Tatooine'
+        );
+        $client->request('POST', '/planet', $params);
+        $this->assertResponseStatusCodeSame(422);
     }
 }
